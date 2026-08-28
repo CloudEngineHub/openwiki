@@ -549,6 +549,12 @@ describe("providerUsesStreaming", () => {
     }
   });
 
+  test("always forces streaming for copilot regardless of the opt-in", () => {
+    delete process.env.OPENWIKI_OPENAI_COMPATIBLE_STREAMING;
+
+    expect(providerUsesStreaming("copilot")).toBe(true);
+  });
+
   test("never applies to the other providers sharing the ChatOpenAI branch", () => {
     process.env.OPENWIKI_OPENAI_COMPATIBLE_STREAMING = "true";
 
@@ -556,7 +562,6 @@ describe("providerUsesStreaming", () => {
       for (const provider of [
         "openai",
         "baseten",
-        "copilot",
         "fireworks",
         "nebius",
         "nvidia",
